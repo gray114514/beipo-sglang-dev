@@ -1,0 +1,4 @@
+base image : harbor.local.clusters/bp/lmsysorg/sglang:dev-v0.5.23-k3.1-fix (config sha256:e1463ccad4f7, sglang /root/sglang commit 44bf3993c6)
+source     : Infrawaves/sglang branch kda-l3-node-aggregate-k31, uncommitted diff on 15a7502e24 (infrawaves/dev/v0.5.23-k31)
+check      : the 7 overlaid files had the same md5 in the base image and in 15a7502e24 (2026-11-13)
+purpose    : --enable-kda-hicache-node-aggregate (default off) for K3.1 correctness test on B300
