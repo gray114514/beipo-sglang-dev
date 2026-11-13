@@ -90,7 +90,7 @@ def flush(a):
         except Exception as e:
             code, raw = -1, repr(e)
         print(f"flush_cache attempt {i + 1}: HTTP {code} {raw.strip()[:100]!r}")
-        if code == 200 and "not" not in raw.lower():
+        if code == 200 and raw.strip().startswith("Cache flushed"):
             return True
         time.sleep(3)
     return False
@@ -106,6 +106,7 @@ ap.add_argument("--wait", type=int, default=90, help="seconds to wait for write-
 ap.add_argument("--req-timeout", type=int, default=600)
 ap.add_argument("--flush-retries", type=int, default=5)
 a = ap.parse_args()
+sys.stdout.reconfigure(line_buffering=True)
 a.router, a.p = a.router.rstrip("/"), a.p.rstrip("/")
 
 try:
