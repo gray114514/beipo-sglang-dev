@@ -12,6 +12,7 @@ CONC=${CONC:-16}
 DATASET=${DATASET:-/root/fjm/dataset_demo_1500.jsonl}
 BENCH=${BENCH:-/root/lvning/builds/kda-k31-v1-src/benchmark.py}
 OUT=${OUT:-/root/lvning/kda-k31-test/load-$(date +%m%d%H%M)}
+SKIP_SCAN=${SKIP_SCAN:-1}
 NS=qiji
 HERE=$(cd "$(dirname "$0")" && pwd)
 
@@ -29,6 +30,7 @@ metrics() {
   log "metrics #$1: $(grep -c '^sglang:' "$OUT/metrics$1.txt") sglang lines"
 }
 scan() {
+  if [ "$SKIP_SCAN" = 1 ]; then log "scan #$1 skipped (SKIP_SCAN=1)"; return 0; fi
   log "scan #$1"
   kubectl exec -i -n "$NS" "$P_POD" -c master -- \
     python3 - "$MASTER" "$PREFIX" - < "$HERE/l3_key_scan.py" > "$OUT/scan$1.txt"
